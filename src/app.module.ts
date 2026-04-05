@@ -6,6 +6,7 @@ import { StudentsModule } from './modules/students/students.module';
 import { DatabaseModule } from './database/database.module';
 import { MasterModule } from './modules/master/master.module';
 import { SettingsModule } from './modules/settings/settings.module';
+import { AcademicsModule } from './modules/academics/academics.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { SettingsModule } from './modules/settings/settings.module';
     StudentsModule,
     MasterModule,
     SettingsModule,
+    AcademicsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
