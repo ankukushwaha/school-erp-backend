@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 import { StudentsModule } from './modules/students/students.module';
 import { DatabaseModule } from './database/database.module';
 import { MasterModule } from './modules/master/master.module';
+import { SettingsModule } from './modules/settings/settings.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { MasterModule } from './modules/master/master.module';
     DatabaseModule,
     StudentsModule,
     MasterModule,
+    SettingsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
