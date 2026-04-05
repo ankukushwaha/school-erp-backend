@@ -5,6 +5,9 @@ import { ClassModule } from './class/class.module';
 import { ClassSectionModule } from './class-section/class-section.module';
 import { SubjectModule } from './subject/subject.module';
 import { SubjectMappingModule } from './subject-mapping/subject-mapping.module';
+import { SectionLookupModule } from './section-lookup/section-lookup.module';
+import { EventTypeModule } from './event-type/event-type.module';
+import { ClassTeacherModule } from './class-teacher/class-teacher.module';
 
 @Module({
   imports: [
@@ -14,6 +17,9 @@ import { SubjectMappingModule } from './subject-mapping/subject-mapping.module';
     ClassSectionModule,
     SubjectModule,
     SubjectMappingModule,
+    SectionLookupModule,
+    EventTypeModule,
+    ClassTeacherModule,
   ],
 })
 export class AcademicsModule {}
