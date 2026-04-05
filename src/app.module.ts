@@ -8,6 +8,8 @@ import { MasterModule } from './modules/master/master.module';
 import { SettingsModule } from './modules/settings/settings.module';
 import { AcademicsModule } from './modules/academics/academics.module';
 import { CommonModule } from './modules/common/common.module';
+import { AuthModule } from './modules/auth/auth.module';
+import { UsersModule } from './modules/users/users.module';
 // import { UtilitiesModule } from './modules/utilities/utilities.module';
 
 @Module({
