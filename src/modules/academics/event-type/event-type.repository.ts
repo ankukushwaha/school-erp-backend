@@ -3,12 +3,12 @@ import { DatabaseService } from '../../../database/database.service';
 
 @Injectable()
 export class EventTypeRepository {
-  constructor(private readonly db: DatabaseService) {}
+  constructor(private readonly db: DatabaseService) { }
 
   async createEventType(eventType: any) {
     const checkQuery = `
       SELECT COUNT(1) AS count
-      FROM s_master.m_event_type
+      FROM m_event_type
       WHERE LOWER(event_type_name) = LOWER($1)
         AND del_status = FALSE
     `;
@@ -18,7 +18,7 @@ export class EventTypeRepository {
     }
 
     const insertQuery = `
-      INSERT INTO s_master.m_event_type (event_type_name, description)
+      INSERT INTO m_event_type (event_type_name, description)
       VALUES ($1, $2)
       RETURNING event_type_id AS "eventTypeId"
     `;
@@ -36,7 +36,7 @@ export class EventTypeRepository {
         event_type_name AS "eventTypeName",
         description AS "description",
         is_active AS "isActive"
-      FROM s_master.m_event_type
+      FROM m_event_type
       WHERE del_status = FALSE
       ORDER BY event_type_name
     `;
@@ -50,7 +50,7 @@ export class EventTypeRepository {
         event_type_name AS "eventTypeName",
         description AS "description",
         is_active AS "isActive"
-      FROM s_master.m_event_type
+      FROM m_event_type
       WHERE event_type_id = $1
         AND del_status = FALSE
     `;
@@ -61,7 +61,7 @@ export class EventTypeRepository {
   async updateEventType(eventType: any) {
     const checkQuery = `
       SELECT COUNT(1) AS count
-      FROM s_master.m_event_type
+      FROM m_event_type
       WHERE LOWER(event_type_name) = LOWER($1)
         AND event_type_id <> $2
         AND del_status = FALSE
@@ -72,7 +72,7 @@ export class EventTypeRepository {
     }
 
     const updateQuery = `
-      UPDATE s_master.m_event_type
+      UPDATE m_event_type
       SET
         event_type_name = $1,
         description = $2,
@@ -93,7 +93,7 @@ export class EventTypeRepository {
 
   async deleteEventType(id: number) {
     const query = `
-      UPDATE s_master.m_event_type
+      UPDATE m_event_type
       SET
         del_status = TRUE,
         del_on_dt = CURRENT_TIMESTAMP

@@ -7,7 +7,7 @@ export class AcademicCalendarRepository {
 
   async createAcademicCalendar(calendar: any): Promise<number> {
     const query = `
-      INSERT INTO s_master.m_academic_calendar
+      INSERT INTO m_academic_calendar
       (
           academic_year_id,
           school_id,
@@ -58,12 +58,12 @@ export class AcademicCalendarRepository {
           ac.start_date AS "startDate",
           ac.end_date AS "endDate",
           ac.is_holiday AS "isHoliday"
-      FROM s_master.m_academic_calendar ac
-      LEFT JOIN s_master.m_academic_year ay
+      FROM m_academic_calendar ac
+      LEFT JOIN m_academic_year ay
           ON ac.academic_year_id = ay.academic_year_id AND ay.del_status = FALSE
-      LEFT JOIN s_master.m_class c
+      LEFT JOIN m_class c
           ON ac.class_id = c.class_id AND c.del_status = FALSE
-      LEFT JOIN s_master.m_event_type et
+      LEFT JOIN m_event_type et
           ON ac.event_type_id = et.event_type_id AND et.del_status = FALSE
       WHERE ac.del_status = FALSE
       ORDER BY ac.start_date
@@ -88,12 +88,12 @@ export class AcademicCalendarRepository {
           ac.start_date AS "startDate",
           ac.end_date AS "endDate",
           ac.is_holiday AS "isHoliday"
-      FROM s_master.m_academic_calendar ac
-      LEFT JOIN s_master.m_academic_year ay
+      FROM m_academic_calendar ac
+      LEFT JOIN m_academic_year ay
           ON ac.academic_year_id = ay.academic_year_id AND ay.del_status = FALSE
-      LEFT JOIN s_master.m_class c
+      LEFT JOIN m_class c
           ON ac.class_id = c.class_id AND c.del_status = FALSE
-      LEFT JOIN s_master.m_event_type et
+      LEFT JOIN m_event_type et
           ON ac.event_type_id = et.event_type_id AND et.del_status = FALSE
       WHERE ac.academic_calendar_id = $1 AND ac.del_status = FALSE
     `;
@@ -103,7 +103,7 @@ export class AcademicCalendarRepository {
 
   async updateAcademicCalendar(calendar: any): Promise<boolean> {
     const query = `
-      UPDATE s_master.m_academic_calendar
+      UPDATE m_academic_calendar
       SET
           academic_year_id = $1,
           school_id = $2,
@@ -138,7 +138,7 @@ export class AcademicCalendarRepository {
 
   async deleteAcademicCalendar(id: number): Promise<boolean> {
     const query = `
-      UPDATE s_master.m_academic_calendar
+      UPDATE m_academic_calendar
       SET
           del_status = TRUE,
           del_on_dt = CURRENT_TIMESTAMP

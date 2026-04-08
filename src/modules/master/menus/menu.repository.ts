@@ -3,7 +3,7 @@ import { DatabaseService } from '../../../database/database.service';
 
 @Injectable()
 export class MenuRepository {
-  constructor(private readonly db: DatabaseService) {}
+  constructor(private readonly db: DatabaseService) { }
 
   async getMenuTreeAsync() {
     const menusQuery = `
@@ -16,7 +16,7 @@ export class MenuRepository {
         menu_type      AS "menuType",
         icon_name      AS "iconName",
         display_order  AS "displayOrder"
-      FROM s_master.m_menu
+      FROM m_menu
       WHERE del_status = false
         AND is_visible = true
       ORDER BY display_order
@@ -28,7 +28,7 @@ export class MenuRepository {
         menu_id        AS "menuId",
         action_key     AS "actionKey",
         action_name    AS "actionName"
-      FROM s_master.m_menu_action
+      FROM m_menu_action
       WHERE del_status = false
     `;
 

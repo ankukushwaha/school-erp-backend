@@ -3,7 +3,7 @@ import { DatabaseService } from '../../../database/database.service';
 
 @Injectable()
 export class SectionLookupRepository {
-  constructor(private readonly db: DatabaseService) {}
+  constructor(private readonly db: DatabaseService) { }
 
   async getAllAsync() {
     const query = `
@@ -18,7 +18,7 @@ export class SectionLookupRepository {
         edit_on_dt AS "editOnDt",
         del_on_dt AS "delOnDt",
         del_status AS "delStatus"
-      FROM s_master.m_section_lookup
+      FROM m_section_lookup
       WHERE del_status = false
       ORDER BY section_id
     `;
@@ -32,7 +32,7 @@ export class SectionLookupRepository {
         section_name AS "sectionName",
         section_code AS "sectionCode",
         del_status AS "delStatus"
-      FROM s_master.m_section_lookup
+      FROM m_section_lookup
       WHERE section_id = $1
         AND del_status = false
     `;
@@ -47,7 +47,7 @@ export class SectionLookupRepository {
         section_name AS "sectionName",
         section_code AS "sectionCode",
         del_status AS "delStatus"
-      FROM s_master.m_section_lookup
+      FROM m_section_lookup
       WHERE LOWER(section_name) = LOWER($1)
         AND del_status = false
     `;
@@ -57,7 +57,7 @@ export class SectionLookupRepository {
 
   async addAsync(entity: any) {
     const query = `
-      INSERT INTO s_master.m_section_lookup
+      INSERT INTO m_section_lookup
       (section_name, section_code, auth_add, add_on_dt, del_status)
       VALUES ($1, $2, $3, NOW(), false)
       RETURNING section_id AS "sectionId"
@@ -72,7 +72,7 @@ export class SectionLookupRepository {
 
   async updateAsync(entity: any) {
     const query = `
-      UPDATE s_master.m_section_lookup
+      UPDATE m_section_lookup
       SET
         section_name = $1,
         section_code = $2,
@@ -92,7 +92,7 @@ export class SectionLookupRepository {
 
   async softDeleteAsync(id: number, authDel: string) {
     const query = `
-      UPDATE s_master.m_section_lookup
+      UPDATE m_section_lookup
       SET
         del_status = true,
         auth_del = $1,

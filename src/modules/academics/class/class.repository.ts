@@ -3,7 +3,7 @@ import { DatabaseService } from '../../../database/database.service';
 
 @Injectable()
 export class ClassRepository {
-  constructor(private readonly db: DatabaseService) {}
+  constructor(private readonly db: DatabaseService) { }
 
   async getAllAsync() {
     const sql = `
@@ -15,7 +15,7 @@ export class ClassRepository {
           maximum_capacity AS "maximumCapacity",
           description AS "description",
           COALESCE(del_status, false) AS "delStatus"
-      FROM s_master.m_class
+      FROM m_class
       WHERE COALESCE(del_status, false) = false
       ORDER BY class_order
     `;
@@ -32,7 +32,7 @@ export class ClassRepository {
           maximum_capacity AS "maximumCapacity",
           description AS "description",
           COALESCE(del_status, false) AS "delStatus"
-      FROM s_master.m_class
+      FROM m_class
       WHERE class_id = $1
         AND COALESCE(del_status, false) = false
     `;
@@ -42,7 +42,7 @@ export class ClassRepository {
 
   async createAsync(entity: any) {
     const sql = `
-      INSERT INTO s_master.m_class
+      INSERT INTO m_class
       (class_name, class_code, class_order, maximum_capacity, description, add_on_dt)
       VALUES
       ($1, $2, $3, $4, $5, NOW())
@@ -60,7 +60,7 @@ export class ClassRepository {
 
   async updateAsync(entity: any) {
     const sql = `
-      UPDATE s_master.m_class
+      UPDATE m_class
       SET
           class_name = $1,
           class_code = $2,
@@ -85,7 +85,7 @@ export class ClassRepository {
 
   async deleteAsync(id: number) {
     const sql = `
-      UPDATE s_master.m_class
+      UPDATE m_class
       SET del_status = true,
           del_on_dt = NOW()
       WHERE class_id = $1

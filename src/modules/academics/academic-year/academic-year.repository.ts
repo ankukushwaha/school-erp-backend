@@ -3,7 +3,7 @@ import { DatabaseService } from '../../../database/database.service';
 
 @Injectable()
 export class AcademicYearRepository {
-  constructor(private readonly db: DatabaseService) {}
+  constructor(private readonly db: DatabaseService) { }
 
   async getAllWithTermsAsync() {
     const sql = `
@@ -19,8 +19,8 @@ export class AcademicYearRepository {
         t.start_date AS "termStartDate",
         t.end_date AS "termEndDate",
         t.working_days AS "workingDays"
-      FROM s_master.m_academic_year ay
-      LEFT JOIN s_master.m_academic_year_term t
+      FROM m_academic_year ay
+      LEFT JOIN m_academic_year_term t
           ON ay.academic_year_id = t.academic_year_id
       WHERE ay.del_status = false
       ORDER BY ay.academic_year_id DESC
@@ -66,8 +66,8 @@ export class AcademicYearRepository {
         t.start_date AS "termStartDate",
         t.end_date AS "termEndDate",
         t.working_days AS "workingDays"
-      FROM s_master.m_academic_year ay
-      LEFT JOIN s_master.m_academic_year_term t
+      FROM m_academic_year ay
+      LEFT JOIN m_academic_year_term t
           ON ay.academic_year_id = t.academic_year_id
       WHERE ay.academic_year_id = $1
         AND ay.del_status = false
@@ -102,7 +102,7 @@ export class AcademicYearRepository {
   async existsAsync(academicYearName: string) {
     const sql = `
       SELECT COUNT(1) AS count
-      FROM s_master.m_academic_year
+      FROM m_academic_year
       WHERE academic_year = $1
         AND del_status = false
     `;
@@ -112,7 +112,7 @@ export class AcademicYearRepository {
 
   async createAsync(entity: any) {
     const sql = `
-      INSERT INTO s_master.m_academic_year (academic_year, start_date, end_date, is_active, add_on_dt)
+      INSERT INTO m_academic_year (academic_year, start_date, end_date, is_active, add_on_dt)
       VALUES ($1, $2, $3, $4, NOW())
       RETURNING academic_year_id AS "academicYearId";
     `;
@@ -128,7 +128,7 @@ export class AcademicYearRepository {
   async insertTermsAsync(terms: any[]) {
     // Basic iterative insert for terms
     const sql = `
-      INSERT INTO s_master.m_academic_year_term (academic_year_id, term_name, start_date, end_date, working_days, add_on_dt)
+      INSERT INTO m_academic_year_term (academic_year_id, term_name, start_date, end_date, working_days, add_on_dt)
       VALUES ($1, $2, $3, $4, $5, NOW())
     `;
     for (const term of terms) {
@@ -144,7 +144,7 @@ export class AcademicYearRepository {
 
   async updateAsync(entity: any) {
     const sql = `
-      UPDATE s_master.m_academic_year
+      UPDATE m_academic_year
       SET academic_year = $1,
           start_date = $2,
           end_date = $3,
@@ -165,7 +165,7 @@ export class AcademicYearRepository {
 
   async deleteAsync(id: number) {
     const sql = `
-      UPDATE s_master.m_academic_year
+      UPDATE m_academic_year
       SET del_status = true,
           del_on_dt = NOW()
       WHERE academic_year_id = $1
@@ -177,7 +177,7 @@ export class AcademicYearRepository {
 
   async insertTermAsync(term: any) {
     const sql = `
-      INSERT INTO s_master.m_academic_year_term (academic_year_id, term_name, start_date, end_date, working_days, add_on_dt)
+      INSERT INTO m_academic_year_term (academic_year_id, term_name, start_date, end_date, working_days, add_on_dt)
       VALUES ($1, $2, $3, $4, $5, NOW())
     `;
     await this.db.query(sql, [
@@ -191,7 +191,7 @@ export class AcademicYearRepository {
 
   async updateTermAsync(term: any) {
     const sql = `
-      UPDATE s_master.m_academic_year_term
+      UPDATE m_academic_year_term
       SET term_name = $1,
           start_date = $2,
           end_date = $3,

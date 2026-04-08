@@ -3,7 +3,7 @@ import { DatabaseService } from '../../../database/database.service';
 
 @Injectable()
 export class SubjectRepository {
-  constructor(private readonly db: DatabaseService) {}
+  constructor(private readonly db: DatabaseService) { }
 
   private get subjectColumns() {
     return `
@@ -30,7 +30,7 @@ export class SubjectRepository {
   async getSubjects() {
     const query = `
       SELECT ${this.subjectColumns}
-      FROM s_master.m_subject
+      FROM m_subject
       WHERE del_status = false
       ORDER BY subject_name
     `;
@@ -40,7 +40,7 @@ export class SubjectRepository {
   async getSubjectById(id: number) {
     const query = `
       SELECT ${this.subjectColumns}
-      FROM s_master.m_subject
+      FROM m_subject
       WHERE subject_id = $1
         AND del_status = false
     `;
@@ -51,7 +51,7 @@ export class SubjectRepository {
   async createSubject(subject: any) {
     const checkQuery = `
       SELECT COUNT(1) AS count
-      FROM s_master.m_subject 
+      FROM m_subject 
       WHERE subject_code = $1 
         AND del_status = false
     `;
@@ -61,7 +61,7 @@ export class SubjectRepository {
     }
 
     const query = `
-      INSERT INTO s_master.m_subject
+      INSERT INTO m_subject
       (
           subject_name,
           subject_code,
@@ -100,7 +100,7 @@ export class SubjectRepository {
   async updateSubject(subject: any) {
     const checkQuery = `
       SELECT COUNT(1) AS count
-      FROM s_master.m_subject 
+      FROM m_subject 
       WHERE subject_code = $1 
         AND subject_id <> $2
         AND del_status = false
@@ -111,7 +111,7 @@ export class SubjectRepository {
     }
 
     const query = `
-      UPDATE s_master.m_subject
+      UPDATE m_subject
       SET subject_name = $1,
           subject_code = $2,
           is_optional = $3,
@@ -146,7 +146,7 @@ export class SubjectRepository {
 
   async deleteSubject(id: number) {
     const query = `
-      UPDATE s_master.m_subject
+      UPDATE m_subject
       SET del_status = true,
           del_on_dt = NOW()
       WHERE subject_id = $1

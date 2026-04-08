@@ -3,7 +3,7 @@ import { DatabaseService } from '../../../database/database.service';
 
 @Injectable()
 export class ClassTeacherRepository {
-  constructor(private readonly db: DatabaseService) {}
+  constructor(private readonly db: DatabaseService) { }
 
   private get classTeacherColumns() {
     return `
@@ -27,7 +27,7 @@ export class ClassTeacherRepository {
   async getAllAsync() {
     const sql = `
       SELECT ${this.classTeacherColumns}
-      FROM s_master.m_class_teacher
+      FROM m_class_teacher
       WHERE del_status = false
       ORDER BY class_teacher_id
     `;
@@ -37,7 +37,7 @@ export class ClassTeacherRepository {
   async getByIdAsync(id: number) {
     const sql = `
       SELECT ${this.classTeacherColumns}
-      FROM s_master.m_class_teacher
+      FROM m_class_teacher
       WHERE class_teacher_id = $1
       AND del_status = false
     `;
@@ -47,7 +47,7 @@ export class ClassTeacherRepository {
 
   async createAsync(entity: any) {
     const sql = `
-      INSERT INTO s_master.m_class_teacher
+      INSERT INTO m_class_teacher
       (
           academic_year_id, school_id, class_id, section_id,
           teacher_id, is_active, auth_add, add_on_dt, del_status
@@ -69,7 +69,7 @@ export class ClassTeacherRepository {
 
   async updateAsync(id: number, entity: any) {
     const sql = `
-      UPDATE s_master.m_class_teacher
+      UPDATE m_class_teacher
       SET
           academic_year_id = $1,
           school_id = $2,
@@ -98,7 +98,7 @@ export class ClassTeacherRepository {
 
   async deleteAsync(id: number, deletedBy: string) {
     const sql = `
-      UPDATE s_master.m_class_teacher
+      UPDATE m_class_teacher
       SET
           del_status = true,
           auth_del = $1,

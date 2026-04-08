@@ -3,7 +3,7 @@ import { DatabaseService } from '../../../database/database.service';
 
 @Injectable()
 export class SchoolRepository {
-  constructor(private readonly db: DatabaseService) {}
+  constructor(private readonly db: DatabaseService) { }
 
   async getAllAsync() {
     const sql = `
@@ -31,7 +31,7 @@ export class SchoolRepository {
         edit_on_dt AS "editOnDt",
         del_on_dt AS "delOnDt",
         del_status AS "delStatus"
-      FROM s_master.m_school
+      FROM m_school
       WHERE del_status = false
       ORDER BY school_id
     `;
@@ -56,7 +56,7 @@ export class SchoolRepository {
         state AS "state",
         country AS "country",
         postal_code AS "postalCode"
-      FROM s_master.m_school
+      FROM m_school
       WHERE school_id = $1
         AND del_status = false
     `;
@@ -66,7 +66,7 @@ export class SchoolRepository {
 
   async createAsync(school: any) {
     const sql = `
-      INSERT INTO s_master.m_school (
+      INSERT INTO m_school (
         school_code, school_name, principal_name, email, phone_number,
         logo, logo_name, logo_type, address_line1, address_line2,
         city, state, country, postal_code, is_active, auth_add, add_on_dt
@@ -99,7 +99,7 @@ export class SchoolRepository {
 
   async updateAsync(id: number, school: any) {
     const sql = `
-      UPDATE s_master.m_school
+      UPDATE m_school
       SET
         school_code = $1,
         school_name = $2,

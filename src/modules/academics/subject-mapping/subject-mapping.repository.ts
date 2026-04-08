@@ -3,7 +3,7 @@ import { DatabaseService } from '../../../database/database.service';
 
 @Injectable()
 export class SubjectMappingRepository {
-  constructor(private readonly db: DatabaseService) {}
+  constructor(private readonly db: DatabaseService) { }
 
   private get baseQuery() {
     return `
@@ -32,13 +32,13 @@ export class SubjectMappingRepository {
           sm.edit_on_dt AS "editOnDt",
           sm.del_on_dt AS "delOnDt",
           sm.del_status AS "delStatus"
-      FROM s_master.m_subject_mapping sm
-      LEFT JOIN s_master.m_academic_year ay ON sm.academic_year_id = ay.academic_year_id
-      LEFT JOIN s_master.m_school sc ON sm.school_id = sc.school_id
-      LEFT JOIN s_master.m_class c ON sm.class_id = c.class_id
-      LEFT JOIN s_master.m_section_lookup sec ON sm.section_id = sec.section_id
-      LEFT JOIN s_master.m_subject sub ON sm.subject_id = sub.subject_id
-      LEFT JOIN s_master.m_academic_year_term t ON sm.term_id = t.term_id
+      FROM m_subject_mapping sm
+      LEFT JOIN m_academic_year ay ON sm.academic_year_id = ay.academic_year_id
+      LEFT JOIN m_school sc ON sm.school_id = sc.school_id
+      LEFT JOIN m_class c ON sm.class_id = c.class_id
+      LEFT JOIN m_section_lookup sec ON sm.section_id = sec.section_id
+      LEFT JOIN m_subject sub ON sm.subject_id = sub.subject_id
+      LEFT JOIN m_academic_year_term t ON sm.term_id = t.term_id
       WHERE sm.del_status = false
     `;
   }
@@ -56,7 +56,7 @@ export class SubjectMappingRepository {
 
   async createAsync(dto: any) {
     const checkSql = `
-      SELECT 1 FROM s_master.m_subject_mapping
+      SELECT 1 FROM m_subject_mapping
       WHERE academic_year_id = $1
       AND class_id = $2
       AND section_id IS NOT DISTINCT FROM $3
@@ -77,7 +77,7 @@ export class SubjectMappingRepository {
     }
 
     const sql = `
-      INSERT INTO s_master.m_subject_mapping
+      INSERT INTO m_subject_mapping
       (
           academic_year_id, school_id, class_id, section_id, is_all_sections,
           term_id, subject_id, periods_per_week, subject_type, auth_add
@@ -106,7 +106,7 @@ export class SubjectMappingRepository {
 
   async updateAsync(id: number, dto: any) {
     const sql = `
-      UPDATE s_master.m_subject_mapping
+      UPDATE m_subject_mapping
       SET
           academic_year_id = $1,
           school_id = $2,
@@ -139,7 +139,7 @@ export class SubjectMappingRepository {
 
   async deleteAsync(id: number, deletedBy: string) {
     const sql = `
-      UPDATE s_master.m_subject_mapping
+      UPDATE m_subject_mapping
       SET
           del_status = true,
           auth_del = $1,

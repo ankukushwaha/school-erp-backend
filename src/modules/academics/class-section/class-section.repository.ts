@@ -3,7 +3,7 @@ import { DatabaseService } from '../../../database/database.service';
 
 @Injectable()
 export class ClassSectionRepository {
-  constructor(private readonly db: DatabaseService) {}
+  constructor(private readonly db: DatabaseService) { }
 
   async getAllWithNamesAsync() {
     const query = `
@@ -18,9 +18,9 @@ export class ClassSectionRepository {
         cs.section_capacity AS "sectionCapacity",
         cs.class_teacher_id AS "classTeacherId",
         cs.class_section_code AS "classSectionCode"
-      FROM s_master.m_class_section cs
-      JOIN s_master.m_class c ON cs.class_id = c.class_id
-      JOIN s_master.m_section_lookup s ON cs.section_id = s.section_id
+      FROM m_class_section cs
+      JOIN m_class c ON cs.class_id = c.class_id
+      JOIN m_section_lookup s ON cs.section_id = s.section_id
       WHERE cs.del_status = false
     `;
     return this.db.query(query);
@@ -39,9 +39,9 @@ export class ClassSectionRepository {
         cs.section_capacity AS "sectionCapacity",
         cs.class_teacher_id AS "classTeacherId",
         cs.class_section_code AS "classSectionCode"
-      FROM s_master.m_class_section cs
-      JOIN s_master.m_class c ON cs.class_id = c.class_id
-      JOIN s_master.m_section_lookup s ON cs.section_id = s.section_id
+      FROM m_class_section cs
+      JOIN m_class c ON cs.class_id = c.class_id
+      JOIN m_section_lookup s ON cs.section_id = s.section_id
       WHERE cs.class_section_id = $1
         AND cs.del_status = false
     `;
@@ -55,7 +55,7 @@ export class ClassSectionRepository {
         class_section_id AS "classSectionId",
         class_id AS "classId",
         section_id AS "sectionId"
-      FROM s_master.m_class_section
+      FROM m_class_section
       WHERE class_id = $1
         AND section_id = $2
         AND del_status = false
@@ -66,7 +66,7 @@ export class ClassSectionRepository {
 
   async addAsync(entity: any) {
     const query = `
-      INSERT INTO s_master.m_class_section
+      INSERT INTO m_class_section
       (class_id, section_id, room_number, floor, section_capacity,
        class_teacher_id, class_section_code, auth_add, add_on_dt, del_status)
       VALUES
@@ -88,7 +88,7 @@ export class ClassSectionRepository {
 
   async updateAsync(entity: any) {
     const query = `
-      UPDATE s_master.m_class_section
+      UPDATE m_class_section
       SET
         class_id = $1,
         section_id = $2,
@@ -115,7 +115,7 @@ export class ClassSectionRepository {
 
   async softDeleteAsync(id: number, deletedBy: string) {
     const query = `
-      UPDATE s_master.m_class_section
+      UPDATE m_class_section
       SET
         del_status = true,
         auth_del = $1,

@@ -3,12 +3,12 @@ import { DatabaseService } from '../../../database/database.service';
 
 @Injectable()
 export class StudentDocumentRepository {
-  constructor(private readonly db: DatabaseService) {}
+  constructor(private readonly db: DatabaseService) { }
 
   async createStudentDocument(entity: any) {
     const checkQuery = `
       SELECT COUNT(1) AS count
-      FROM s_master.m_student_document
+      FROM m_student_document
       WHERE (LOWER(document_code) = LOWER($1)
       OR LOWER(document_name) = LOWER($2))
       AND del_status = FALSE
@@ -19,7 +19,7 @@ export class StudentDocumentRepository {
     }
 
     const query = `
-      INSERT INTO s_master.m_student_document
+      INSERT INTO m_student_document
       (document_name, document_code, description, is_mandatory, is_active, auth_add)
       VALUES ($1, $2, $3, $4, $5, $6)
       RETURNING student_document_id AS "studentDocumentId"
@@ -52,7 +52,7 @@ export class StudentDocumentRepository {
         edit_on_dt AS "editOnDt",
         del_on_dt AS "delOnDt",
         del_status AS "delStatus"
-      FROM s_master.m_student_document
+      FROM m_student_document
       WHERE del_status = FALSE
       ORDER BY document_name
     `;
@@ -68,7 +68,7 @@ export class StudentDocumentRepository {
         description AS "description",
         is_mandatory AS "isMandatory",
         is_active AS "isActive"
-      FROM s_master.m_student_document
+      FROM m_student_document
       WHERE student_document_id = $1
       AND del_status = FALSE
     `;
@@ -78,7 +78,7 @@ export class StudentDocumentRepository {
 
   async updateStudentDocument(entity: any) {
     const query = `
-      UPDATE s_master.m_student_document
+      UPDATE m_student_document
       SET document_name = $1,
           document_code = $2,
           description = $3,
@@ -104,7 +104,7 @@ export class StudentDocumentRepository {
 
   async deleteStudentDocument(id: number) {
     const query = `
-      UPDATE s_master.m_student_document
+      UPDATE m_student_document
       SET del_status = TRUE,
           del_on_dt = NOW()
       WHERE student_document_id = $1
