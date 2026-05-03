@@ -10,6 +10,8 @@ import { AcademicsModule } from './modules/academics/academics.module';
 import { CommonModule } from './modules/common/common.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/admin/users/users.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigService } from '@nestjs/config';
 // import { UtilitiesModule } from './modules/utilities/utilities.module';
 
 @Module({
@@ -17,8 +19,22 @@ import { UsersModule } from './modules/admin/users/users.module';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    // DatabaseService, // Wait, DatabaseModule should be used, but previous edits used DatabaseService in imports? 
-    // Checking app.module.ts content again... actually it was DatabaseModule.
+    TypeOrmModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        type: 'postgres',
+        host: configService.get<string>('DB_HOST', 'localhost'),
+        port: configService.get<number>('DB_PORT', 5433),
+        username: configService.get<string>('DB_USER', 'postgres'),
+        password: configService.get<string>('DB_PASS') || configService.get<string>('DB_PASSWORD', 'postgres'),
+        database: configService.get<string>('DB_NAME', 'db_school'),
+        entities: [__dirname + '/**/*.entity{.ts,.js}'],
+        migrations: [__dirname + '/migrations/*{.ts,.js}'],
+        synchronize: false,
+        autoLoadEntities: true,
+        logging: true,
+      }),
+    }),
     DatabaseModule,
     StudentsModule,
     MasterModule,
