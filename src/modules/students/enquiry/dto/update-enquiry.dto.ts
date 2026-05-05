@@ -3,7 +3,7 @@ import { CreateEnquiryDto } from './create-enquiry.dto';
 
 export class UpdateEnquiryDto extends CreateEnquiryDto {
   @IsInt()
-  enquiryId: number;
+  enquiryId!: number;
 
   @IsOptional()
   @IsString()

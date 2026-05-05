@@ -6,7 +6,7 @@ export class CreateEnquiryDto {
   enquiryNo?: string;
 
   @IsString()
-  studentName: string;
+  studentName: string = '';
 
   @IsOptional()
   @IsString()

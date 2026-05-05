@@ -1,10 +1,10 @@
 export class SectionLookupCreateDto {
-  sectionName: string;
-  sectionCode: string;
+  sectionName!: string;
+  sectionCode!: string;
   authAdd?: string;
 }
 
 export class SectionLookupUpdateDto extends SectionLookupCreateDto {
-  sectionId: number;
+  sectionId!: number;
   authLstEdt?: string;
 }

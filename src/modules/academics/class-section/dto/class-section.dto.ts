@@ -1,6 +1,6 @@
 export class ClassSectionCreateDto {
-  classId: number;
-  sectionId: number;
+  classId!: number;
+  sectionId!: number;
   roomNumber?: string;
   floor?: string;
   sectionCapacity?: number;
@@ -9,5 +9,5 @@ export class ClassSectionCreateDto {
 }
 
 export class ClassSectionUpdateDto extends ClassSectionCreateDto {
-  classSectionId: number;
+  classSectionId!: number;
 }

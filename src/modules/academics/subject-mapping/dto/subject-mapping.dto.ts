@@ -1,12 +1,12 @@
 export class SubjectMappingCreateDto {
-  academicYearId: number;
+  academicYearId!: number;
   schoolId?: number | null;
-  classId: number;
+  classId!: number;
   sectionId?: number | null;
-  isAllSections: boolean;
-  termId: number;
-  subjectId: number;
-  periodsPerWeek: number;
-  subjectType: string;
+  isAllSections!: boolean;
+  termId!: number;
+  subjectId!: number;
+  periodsPerWeek?: number;
+  subjectType!: string;
   authAdd?: string;
 }

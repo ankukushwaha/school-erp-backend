@@ -1,12 +1,12 @@
 export class LoginRequestDto {
-  email: string;
+  email!: string;
   password?: string;
 }
 
 export class LoginResponseDto {
-  userId: number;
-  userName: string;
-  email: string;
-  isAdmin: boolean;
-  token: string;
+  userId!: number;
+  userName!: string;
+  email!: string;
+  isAdmin!: boolean;
+  token!: string;
 }

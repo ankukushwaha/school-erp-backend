@@ -1,16 +1,16 @@
 export class CreateAcademicCalendarDto {
-  academicYearId: number;
-  schoolId: number;
+  academicYearId!: number;
+  schoolId!: number;
   classId?: number | null;
-  isAllClasses: boolean;
+  isAllClasses?: boolean;
   eventTypeId?: number | null;
-  eventTitle: string;
+  eventTitle?: string;
   eventDescription?: string;
-  startDate: string;
-  endDate: string;
-  isHoliday: boolean;
+  startDate?: string;
+  endDate?: string;
+  isHoliday?: boolean;
 }
 
 export class UpdateAcademicCalendarDto extends CreateAcademicCalendarDto {
-  academicCalendarId: number;
+  academicCalendarId!: number;
 }
