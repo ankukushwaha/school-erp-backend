@@ -42,7 +42,7 @@ export class SearchRepository {
       
       const dict: { [key: string]: string } = {};
       for (const header of response.headers) {
-        dict[header] = jsonData && jsonData[header] !== undefined ? jsonData[header].toString() : '';
+        dict[header] = jsonData && jsonData[header] != null ? jsonData[header].toString() : '';
       }
 
       response.data.push({
