@@ -7,29 +7,32 @@ export class ClassTeacherRepository {
 
   private get classTeacherColumns() {
     return `
-      class_teacher_id AS "classTeacherId",
-      academic_year_id AS "academicYearId",
-      school_id AS "schoolId",
-      class_id AS "classId",
-      section_id AS "sectionId",
-      teacher_id AS "teacherId",
-      is_active AS "isActive",
-      auth_add AS "authAdd",
-      auth_lst_edt AS "authLstEdt",
-      auth_del AS "authDel",
-      add_on_dt AS "addOnDt",
-      edit_on_dt AS "editOnDt",
-      del_on_dt AS "delOnDt",
-      del_status AS "delStatus"
+        ct.class_teacher_id AS "classTeacherId",
+        ct.academic_year_id AS "academicYearId",
+        ay.academic_year AS "academicYearName",
+        ct.school_id AS "schoolId",
+        ct.class_id AS "classId",
+        c.class_name AS "className",
+        ct.section_id AS "sectionId",
+        s.section_name AS "sectionName",
+        ct.teacher_id AS "teacherId",
+        TRIM(CONCAT(e.first_name, ' ', e.last_name)) AS "teacherName",
+        e.email AS "email",
+        e.mobile_no AS "phone",
+        ct.is_active AS "isActive"
+      FROM m_class_teacher ct
+      LEFT JOIN m_class c ON ct.class_id = c.class_id
+      LEFT JOIN m_section_lookup s ON ct.section_id = s.section_id
+      LEFT JOIN m_academic_year ay ON ct.academic_year_id = ay.academic_year_id
+      LEFT JOIN s_employee e ON ct.teacher_id = e.employee_id
     `;
   }
 
   async getAllAsync() {
     const sql = `
       SELECT ${this.classTeacherColumns}
-      FROM m_class_teacher
-      WHERE del_status = false
-      ORDER BY class_teacher_id
+      WHERE ct.del_status = false
+      ORDER BY ct.class_teacher_id
     `;
     return this.db.query(sql);
   }
@@ -37,9 +40,8 @@ export class ClassTeacherRepository {
   async getByIdAsync(id: number) {
     const sql = `
       SELECT ${this.classTeacherColumns}
-      FROM m_class_teacher
-      WHERE class_teacher_id = $1
-      AND del_status = false
+      WHERE ct.class_teacher_id = $1
+      AND ct.del_status = false
     `;
     const rows = await this.db.query(sql, [id]);
     return rows[0] || null;
