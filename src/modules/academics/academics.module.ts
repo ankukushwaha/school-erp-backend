@@ -8,6 +8,7 @@ import { SubjectMappingModule } from './subject-mapping/subject-mapping.module';
 import { SectionLookupModule } from './section-lookup/section-lookup.module';
 import { EventTypeModule } from './event-type/event-type.module';
 import { ClassTeacherModule } from './class-teacher/class-teacher.module';
+import { SyllabusModule } from './syllabus/syllabus.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { ClassTeacherModule } from './class-teacher/class-teacher.module';
     SectionLookupModule,
     EventTypeModule,
     ClassTeacherModule,
+    SyllabusModule,
   ],
 })
 export class AcademicsModule {}
