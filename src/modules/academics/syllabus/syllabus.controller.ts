@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Delete, Param, Body, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Param, Body, ParseIntPipe, Query } from '@nestjs/common';
 import { SyllabusService } from './syllabus.service';
 import { CreateSyllabusDto, UpdateSyllabusDto } from './dto/syllabus.dto';
 
@@ -6,9 +6,9 @@ import { CreateSyllabusDto, UpdateSyllabusDto } from './dto/syllabus.dto';
 export class SyllabusController {
   constructor(private readonly service: SyllabusService) {}
 
-  @Get('get/all')
-  async getAll() {
-    return this.service.getAll();
+  @Post('get/all')
+  async getAll(@Body() body: { classId?: number }) {
+    return this.service.getAll(body.classId);
   }
 
   @Get('get/:id')
