@@ -47,6 +47,28 @@ export class ClassTeacherRepository {
     return rows[0] || null;
   }
 
+  async checkExistsAsync(academicYearId: number, classId: number, sectionId: number, excludeId?: number): Promise<boolean> {
+    const params: any[] = [academicYearId, classId, sectionId];
+    let sql = `
+      SELECT 1
+      FROM m_class_teacher
+      WHERE academic_year_id = $1
+        AND class_id = $2
+        AND section_id = $3
+        AND del_status = false
+    `;
+    
+    if (excludeId) {
+      params.push(excludeId);
+      sql += ` AND class_teacher_id != $4`;
+    }
+    
+    sql += ` LIMIT 1`;
+    
+    const rows = await this.db.query(sql, params);
+    return rows.length > 0;
+  }
+
   async createAsync(entity: any) {
     const sql = `
       INSERT INTO m_class_teacher
