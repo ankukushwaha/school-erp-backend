@@ -10,6 +10,7 @@ import { EventTypeModule } from './event-type/event-type.module';
 import { ClassTeacherModule } from './class-teacher/class-teacher.module';
 import { SyllabusModule } from './syllabus/syllabus.module';
 import { SyllabusChapterModule } from './syllabus-chapter/syllabus-chapter.module';
+import { SyllabusTopicModule } from './syllabus-topic/syllabus-topic.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { SyllabusChapterModule } from './syllabus-chapter/syllabus-chapter.modul
     ClassTeacherModule,
     SyllabusModule,
     SyllabusChapterModule,
+    SyllabusTopicModule,
   ],
 })
 export class AcademicsModule {}
