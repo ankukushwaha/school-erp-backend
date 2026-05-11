@@ -9,6 +9,7 @@ export class SyllabusRepository {
   private get syllabusColumns() {
     return `
       s.syllabus_id AS "id",
+      s.syllabus_name AS "syllabusName",
       s.subject_id AS "subjectId",
       sub.subject_name AS "subjectName",
       s.class_id AS "classId",
@@ -66,14 +67,15 @@ export class SyllabusRepository {
   async createAsync(entity: CreateSyllabusDto) {
     const sql = `
       INSERT INTO syllabus (
-        class_id, subject_id, term_name, total_topics, completed_topics,
+        class_id, syllabus_name, subject_id, term_name, total_topics, completed_topics,
         document, status, academic_year, auth_add, add_on_dt, del_status
       )
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, NOW(), false)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, NOW(), false)
       RETURNING syllabus_id AS "id"
     `;
     const rows = await this.db.query(sql, [
       entity.classId,
+      entity.syllabusName,
       entity.subjectId,
       entity.termName,
       entity.totalTopics || 0,
@@ -91,20 +93,22 @@ export class SyllabusRepository {
       UPDATE syllabus
       SET
         class_id = COALESCE($1, class_id),
-        subject_id = COALESCE($2, subject_id),
-        term_name = COALESCE($3, term_name),
-        total_topics = COALESCE($4, total_topics),
-        completed_topics = COALESCE($5, completed_topics),
-        document = COALESCE($6, document),
-        status = COALESCE($7, status),
-        academic_year = COALESCE($8, academic_year),
-        auth_lst_edt = $9,
+        syllabus_name = COALESCE($2, syllabus_name),
+        subject_id = COALESCE($3, subject_id),
+        term_name = COALESCE($4, term_name),
+        total_topics = COALESCE($5, total_topics),
+        completed_topics = COALESCE($6, completed_topics),
+        document = COALESCE($7, document),
+        status = COALESCE($8, status),
+        academic_year = COALESCE($9, academic_year),
+        auth_lst_edt = $10,
         edit_on_dt = CURRENT_TIMESTAMP
-      WHERE syllabus_id = $10 AND del_status = false
+      WHERE syllabus_id = $11 AND del_status = false
       RETURNING syllabus_id
     `;
     const result = await this.db.query(sql, [
       entity.classId,
+      entity.syllabusName,
       entity.subjectId,
       entity.termName,
       entity.totalTopics,

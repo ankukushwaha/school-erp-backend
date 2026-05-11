@@ -5,6 +5,10 @@ export class CreateSyllabusDto {
   @IsNotEmpty()
   classId: number;
 
+  @IsString()
+  @IsOptional()
+  syllabusName?: string;
+
   @IsInt()
   @IsNotEmpty()
   subjectId: number;
