@@ -9,6 +9,7 @@ import { SectionLookupModule } from './section-lookup/section-lookup.module';
 import { EventTypeModule } from './event-type/event-type.module';
 import { ClassTeacherModule } from './class-teacher/class-teacher.module';
 import { SyllabusModule } from './syllabus/syllabus.module';
+import { SyllabusChapterModule } from './syllabus-chapter/syllabus-chapter.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { SyllabusModule } from './syllabus/syllabus.module';
     EventTypeModule,
     ClassTeacherModule,
     SyllabusModule,
+    SyllabusChapterModule,
   ],
 })
 export class AcademicsModule {}
